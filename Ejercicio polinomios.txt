@@ -1,0 +1,31 @@
+import numpy as np
+
+def Function(x):
+    return 3*x**2 + 5*x - 1
+
+def Derivative(x):
+    return 6*x + 5
+
+def GetNewtonMethod(f, df, x0, tol=1e-6, max_iter=100):
+    for i in range(max_iter):
+        x1 = x0 - f(x0) / df(x0)
+        if abs(x1 - x0) < tol:
+            return x1
+        x0 = x1
+    return False
+
+def GetAllRoots(x, tolerancia=10):
+    Roots = np.array([])
+    for i in x:
+        root = GetNewtonMethod(Function, Derivative, i)
+        if root is not False:
+            croot = np.round(root, tolerancia)
+            if croot not in Roots:
+                Roots = np.append(Roots, croot)
+    Roots.sort()
+    return Roots
+
+x = np.linspace(-1., 1., 20)
+Roots = GetAllRoots(x)
+
+print(Roots)
